@@ -1,0 +1,74 @@
+graph TB
+    subgraph Sources["Sources"]
+        SMS["SMS Inbox<br/>MoMo, Telecel, Banks"]
+        GM["Gmail<br/>receipts, statements"]
+    end
+
+    subgraph Client["Android Client - Kotlin"]
+        BR["BroadcastReceiver<br/>new SMS"]
+        BF["Backfill Job<br/>content://sms"]
+        RED["Redactor<br/>strip PII, names, acct tails"]
+        FP["Fingerprinter<br/>mask digits then hash"]
+        Q["Outbox Queue<br/>Room, offline-safe"]
+        UI["Ledger UI<br/>review + correct"]
+    end
+
+    subgraph Backend["Go Service"]
+        ING["Ingest API<br/>gRPC"]
+        LOOK{"Template<br/>cache hit?"}
+        EXEC["Spec Executor<br/>deterministic, local"]
+        GEN["Spec Generator<br/>LLM cold path"]
+        VAL["Validator<br/>parse own sample<br/>+ confidence check"]
+        NORM["Normalizer<br/>int64 minor units<br/>ISO currency"]
+        GRP["Grouper<br/>debit + fee + balance<br/>by ref ID and time window"]
+        LED["Ledger Writer<br/>idempotent upsert"]
+        CAT["Categorizer<br/>merchant rules"]
+    end
+
+    subgraph Store["Storage"]
+        PG[("Postgres<br/>transactions<br/>templates<br/>corrections")]
+        TPL["templates.json<br/>versioned in repo"]
+    end
+
+    subgraph Quality["Quality Loop"]
+        EVAL["Eval Harness<br/>labeled fixtures<br/>runs on every change"]
+        DRIFT["Drift Monitor<br/>unmatched rate<br/>per sender"]
+    end
+
+    SMS --> BR
+    SMS --> BF
+    GM --> BF
+    BR --> RED
+    BF --> RED
+    RED --> FP
+    FP --> Q
+    Q -->|"skeleton + masked values"| ING
+
+    ING --> LOOK
+    LOOK -->|hit| EXEC
+    LOOK -->|miss| GEN
+    GEN --> VAL
+    VAL -->|spec valid| EXEC
+    VAL -->|rejected| DRIFT
+    VAL -->|"cache spec"| PG
+
+    EXEC --> NORM
+    NORM --> GRP
+    GRP --> CAT
+    CAT --> LED
+    LED --> PG
+    PG --> UI
+
+    UI -->|"user correction"| PG
+    PG -->|"promote confirmed specs"| TPL
+    TPL --> EVAL
+    PG -->|fixtures| EVAL
+    EVAL -->|"regression gate"| EXEC
+    DRIFT -->|"template changed"| GEN
+
+    classDef cold fill:#7c3aed,stroke:#5b21b6,color:#fff
+    classDef hot fill:#0f766e,stroke:#134e4a,color:#fff
+    classDef store fill:#b45309,stroke:#78350f,color:#fff
+    class GEN,VAL cold
+    class EXEC,NORM,GRP,LED hot
+    class PG,TPL store

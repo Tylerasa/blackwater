@@ -1,0 +1,77 @@
+{
+  "_note": "Synthetic MoMo/bank SMS fixtures — all names, phone numbers, transaction IDs, and account fragments have been replaced with obvious dummy values. Do NOT put real messages here; they belong in a local file listed in .gitignore.",
+  "records": [
+    {
+      "name": "mtn_airtime_topup",
+      "sender": "MobileMoney",
+      "expect_direction": "debit",
+      "body": "Payment for GHS3.00 to MTN  ..Current Balance: GHS 13.52. Transaction Id: 50000000001. Fee charged: GHS0.00,Tax Charged 0.Download the MoMo App for a Faster & Easier Experience. Click here: https://bit.ly/downloadMyMoMo"
+    },
+    {
+      "name": "mtn_bundle_purchase",
+      "sender": "MobileMoney",
+      "expect_direction": "debit",
+      "body": "Payment for GHS3.00 to MTN BUNDLE.Current Balance: GHS 38.32. Transaction Id: 50000000002. Fee charged: GHS0.00,Tax Charged 0.Download the MoMo App for a Faster & Easier Experience. Click here: https://bit.ly/downloadMyMoMo"
+    },
+    {
+      "name": "merchant_payment_made_q_ref",
+      "sender": "MobileMoney",
+      "expect_direction": "debit",
+      "body": "Payment made for GHS 25.00 to JOHN DOE Current Balance: GHS 100.00 . Available Balance: GHS 100.00. Reference: Q. Transaction ID: 50000000003. Fee charged: GHS0.00 Tax charged: 0. Download the MoMo App for a Faster & Easier Experience. Click here: https://bit.ly/downloadMyMoMo"
+    },
+    {
+      "name": "merchant_payment_made_tax",
+      "sender": "MobileMoney",
+      "expect_direction": "debit",
+      "body": "Payment made for GHS 160.00 to JANE SMITH ENTERPRISE Current Balance: GHS 41.32 . Available Balance: GHS 41.32. Reference: 1. Transaction ID: 50000000004. Fee charged: GHS1.60 Tax charged: 0.60. Download the MoMo App for a Faster & Easier Experience. Click here: https://bit.ly/downloadMyMoMo"
+    },
+    {
+      "name": "bank_transfer_received_fidelity",
+      "sender": "MobileMoney",
+      "expect_direction": "credit",
+      "body": "Payment received for GHS 200.00 from JOHN DOE  Current Balance: GHS 203.52 . Available Balance: GHS 203.52. Reference: JOHN DOE ,21000000XX, from FBL Fidelity Bank Limited. Transaction ID: 50000000005. TRANSACTION FEE: 0.00"
+    },
+    {
+      "name": "bank_transfer_received_ecobank",
+      "sender": "MobileMoney",
+      "expect_direction": "credit",
+      "body": "Payment received for GHS 100.00 from JOHN DOE .   Current Balance: GHS 100.19 . Available Balance: GHS 100.19. Reference: Transfer From Ecobank Mobile. Transaction ID: 50000000006. TRANSACTION FEE: 0.00"
+    },
+    {
+      "name": "telecel_push_paid",
+      "sender": "MobileMoney",
+      "expect_direction": "debit",
+      "body": "Your payment of GHS 22.00 to TELECEL PUSH has been completed at 2025-02-19 20:07:28. Your new balance: GHS 13.44. Fee was GHS 0.38 Tax was GHS -. Reference: KWAME MENSAH,233240000000,Q. Financial Transaction Id: 50000000007. External Transaction Id: 50000000007.Download the MoMo App for a Faster & Easier Experience Click here: https://bit.ly/downloadMyMoMo"
+    },
+    {
+      "name": "payment_to_named_person_completed",
+      "sender": "MobileMoney",
+      "expect_direction": "debit",
+      "body": "Your payment of GHS 100.00 to Justice Kwaku Boampong has been completed at 2025-03-03 07:58:11. Reference: 1. Your new balance: GHS 126.31. Fee was GHS 0.50 Tax charged: GHS0. Financial Transaction Id: 50000000008. External Transaction Id: -.Download the MoMo App for a Faster & Easier Experience Click here: https://bit.ly/downloadMyMoMo"
+    },
+    {
+      "name": "merchant_push",
+      "sender": "MobileMoney",
+      "expect_direction": "debit",
+      "body": "Y'ello. You have Paid GHS 100 to Merchant 050000 on your mobile money account at 202500000000. Message from sender: 1. Your new balance: GHS 126.31 . Fee was GHS 0.50 . Financial Transaction Id: 50000000009.Download the MoMo App for a Faster & Easier Experience Click here: http://mtnghana.app.link/abcdefghijk"
+    },
+    {
+      "name": "cash_out_at_agent",
+      "sender": "MobileMoney",
+      "expect_direction": "debit",
+      "body": "Cash Out made for GHS10.00 to DUMMY AGENT VENTURES. Current Balance: GHS35.07 Financial Transaction Id: 50000000010. Cash-out fee is charged automatically from your MTN MoMo wallet. Please do not pay any fees to the Agent. Thank you for using MTN MobileMoney. Fee charged: GHS0.50."
+    },
+    {
+      "name": "otp_login",
+      "sender": "MobileMoney",
+      "expect_direction": "balance",
+      "body": "<#> Please enter the following code:0000 to complete your login. TRANSACTION FEE IS 0. N/AAAAAAAAAA BBBBBBBBBBB CCCCCCCCCCC DDDDDDD/D EEEEEEEEEEE FFFFFFFFFFF GGGGGGGGGGG HHHHHHHHHHH"
+    },
+    {
+      "name": "marketing_download_app",
+      "sender": "MobileMoney",
+      "expect_direction": "balance",
+      "body": "Download the myMoMo App & get FREE 300MB plus an exclusive 100% bonus for recharges via the App. Click here https://mtnmymomo.onelink.me/XJOt/example to download."
+    }
+  ]
+}

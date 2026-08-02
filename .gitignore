@@ -1,0 +1,16 @@
+# binaries
+/ledger
+/bin/
+
+# real SMS dumps must never be committed
+testdata/*.xml
+*.dump
+*.dump.xml
+
+# editors
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
