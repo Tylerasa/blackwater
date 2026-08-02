@@ -6,9 +6,9 @@ import (
 	"sort"
 	"text/tabwriter"
 
-	"github.com/momo-ledger/momo-ledger/internal/corpus"
-	"github.com/momo-ledger/momo-ledger/internal/fingerprint"
-	"github.com/momo-ledger/momo-ledger/internal/spec"
+	"github.com/Tylerasa/blackwater/internal/corpus"
+	"github.com/Tylerasa/blackwater/internal/fingerprint"
+	"github.com/Tylerasa/blackwater/internal/spec"
 	"github.com/spf13/cobra"
 )
 
@@ -154,4 +154,3 @@ func formatName(f corpus.Format) string {
 		return "unknown"
 	}
 }
-

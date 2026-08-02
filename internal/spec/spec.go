@@ -59,9 +59,6 @@ type Spec struct {
 	Version     int              `json:"version"`
 }
 
-// ErrNotImplemented is returned by Generate until the LLM path lands.
-var ErrNotImplemented = errors.New("spec: Generate not implemented (milestone 3)")
-
 // ErrNoMatch means the spec's pattern did not match the body at all.
 var ErrNoMatch = errors.New("spec: pattern did not match body")
 
@@ -124,7 +121,3 @@ func Validate(s Spec, sample string) error {
 	return nil
 }
 
-// Generate is the LLM-backed spec generator. Stubbed until milestone 3.
-func Generate(skeleton, sample string) (Spec, error) {
-	return Spec{}, ErrNotImplemented
-}

@@ -1,6 +1,11 @@
+# secrets — .env holds the actual API key, .env.example is the committed template
+.env
+.env.local
+
 # binaries
 /ledger
 /bin/
+cmd/ledger/ledger
 
 # real SMS dumps must never be committed
 testdata/*.xml

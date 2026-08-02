@@ -1,10 +1,11 @@
-module github.com/momo-ledger/momo-ledger
+module github.com/Tylerasa/blackwater
 
 go 1.25.3
 
+require github.com/spf13/cobra v1.10.2
+
 require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/spf13/cobra v1.10.2 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/spf13/pflag v1.0.9 // indirect
-	github.com/stretchr/testify v1.11.1 // indirect
 )

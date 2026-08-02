@@ -1,4 +1,4 @@
-# momo-ledger
+# blackwater
 
 Offline-first expense tracker that turns Ghanaian mobile-money and bank SMS
 into a structured transaction ledger. Milestone 1 covers the parsing
@@ -36,6 +36,9 @@ testdata/              synthetic fixtures — never real SMS
 # see how many distinct templates your dump contains
 ledger analyse --input dump.xml
 
+# ask Claude to write a parsing spec for every unseen fingerprint (needs API key)
+ledger generate --input dump.xml
+
 # run cached specs, list matches + unmatched fingerprints
 ledger parse --input dump.xml
 
@@ -51,6 +54,50 @@ The `analyse` command is the diagnostic view. It groups messages by
 fingerprint, sorts by frequency, shows whether each has a cached Spec, and
 reports coverage. Use it to decide which templates are worth writing Specs
 for (highest count = biggest payoff).
+
+## Generating specs with Claude
+
+`ledger generate` is the only command that touches the network. It walks
+your dump, finds every fingerprint not yet in `templates/templates.json`,
+picks one sample body per fingerprint, and asks Claude to produce a
+regex-based Spec. The Spec is validated against the sample locally — if the
+regex doesn't compile, doesn't match, or misses required fields, the tool
+retries with the error fed back to the model. Only validated Specs are
+cached.
+
+```sh
+export ANTHROPIC_API_KEY=sk-ant-...
+
+# generate for every unseen fingerprint, tallest-frequency first
+ledger generate --input dump.xml
+
+# just try the top 5 templates (cost control)
+ledger generate --input dump.xml --limit 5
+
+# try one specific fingerprint (hash prefix works)
+ledger generate --input dump.xml --fingerprint e4afd3
+
+# see what it would do without persisting
+ledger generate --input dump.xml --dry-run
+
+# skip the pre-flight confirmation
+ledger generate --input dump.xml --yes
+```
+
+**Model.** Defaults to `claude-haiku-4-5-20251001` — fast, cheap (~$1/$5
+per Mtok), and easily strong enough for regex generation. Override with
+`LEDGER_MODEL=claude-sonnet-4-6` if a template resists Haiku.
+
+**Cost.** One API call per unseen fingerprint (plus retries — worst-case
+3 calls). A 25-template dump costs ~$0.01 at Haiku prices. The system
+prompt is marked for ephemeral cache, so a batch run pays for it once.
+
+**Privacy.** Generating a spec requires sending Claude one real sample body
+per template so it can construct the regex against ground truth. That
+message is sent once per template, ever, then the cached Spec parses all
+future messages of that shape locally. If you don't want *any* raw body to
+leave your machine, don't run `generate` — the `analyse` and `parse`
+commands never touch the network.
 
 ## Exporting SMS
 
@@ -104,8 +151,12 @@ over/under-masking:
 
 ## Roadmap
 
-- **Milestone 2** — LLM spec generator (`spec.Generate`) with validation
-  loop, community templates PRs.
+- **Milestone 1 (done)** — fingerprinter, corpus reader, `analyse` + `parse` CLI.
+- **Milestone 2 (done)** — LLM spec generator (`spec.Generate`) with
+  validation loop, `ledger generate` CLI. Templates now growable from any
+  dump with one command.
 - **Milestone 3** — Postgres persistence, per-user encryption.
 - **Milestone 4** — normalisation + dedupe (`internal/normalize`, `internal/group`).
 - **Milestone 5** — Android client.
+- **Ongoing** — community-contributed specs via PRs to
+  `templates/templates.json` (diff-friendly, stable ordering, no PII).

@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/momo-ledger/momo-ledger/internal/fingerprint"
+	"github.com/Tylerasa/blackwater/internal/fingerprint"
 )
 
 type fixture struct {
