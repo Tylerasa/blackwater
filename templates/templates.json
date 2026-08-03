@@ -1,1 +1,610 @@
-{}
+{
+  "007b77824a278dd6d5013a4f429c511b4ca86ecbefaaa6bb33e1a54ae8b77103": {
+    "fingerprint": "007b77824a278dd6d5013a4f429c511b4ca86ecbefaaa6bb33e1a54ae8b77103",
+    "sender": "MobileMoney",
+    "pattern": "^Payment received for GHS\\s*(?P\u003camount\u003e[0-9.,]+) from (?P\u003ccounterparty\u003e.+?)\\s+Current Balance: GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\s*\\.\\s*Available Balance: GHS\\s*(?P\u003cavailable_balance\u003e[0-9.,]+)\\.\\s*Reference: .+?,(?P\u003creference\u003e[0-9x]+), from .+?\\.\\s*Transaction ID: (?P\u003ctransaction_id\u003e\\d+)\\.\\s*TRANSACTION FEE:\\s*(?P\u003cfee\u003e[0-9.,]+)$",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "available_balance": {
+        "kind": "balance",
+        "optional": true
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "transaction_id": {
+        "kind": "reference"
+      }
+    },
+    "direction": "credit",
+    "version": 1
+  },
+  "13442ac11c6118e22af295c682fc9791ee8cb8b63f9b68d5a09b62b95fc15857": {
+    "fingerprint": "13442ac11c6118e22af295c682fc9791ee8cb8b63f9b68d5a09b62b95fc15857",
+    "sender": "MobileMoney",
+    "pattern": "^Your payment of GHS\\s*(?P\u003camount\u003e[0-9.,]+) to (?P\u003ccounterparty\u003e.+?) has been completed at (?P\u003cdate\u003e\\d{4}-\\d{2}-\\d{2})\\s+(?P\u003ctime\u003e\\d{2}:\\d{2}:\\d{2})\\. Your new balance: GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\. Fee was GHS\\s*(?P\u003cfee\u003e[0-9.,]+) Tax was GHS\\s*-\\. Reference: .+?,(?P\u003cmsisdn\u003e\\d+),\\d+\\. Financial Transaction Id: (?P\u003creference\u003e\\d+)\\. External Transaction Id: \\d+\\.Download the .+? for a Faster \u0026 .+? here: https://bit\\.ly/.+",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "date": {
+        "kind": "date"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "msisdn": {
+        "kind": "msisdn"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "time": {
+        "kind": "time"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "2efb4b6070811e714f71a0dab0ad435210bc344610a370b9430e905805f0a4bb": {
+    "fingerprint": "2efb4b6070811e714f71a0dab0ad435210bc344610a370b9430e905805f0a4bb",
+    "sender": "MobileMoney",
+    "pattern": "^Y'ello\\s+(?P\u003cname\u003e.+?)!\\s+This\\s+season\\s+of\\s+love,\\s+use\\s+the\\s+Kashme\\s+feature\\s+on\\s+the\\s+MyMoMo\\s+app\\s+to\\s+easily\\s+request\\s+MoMo\\s+from\\s+your\\s+loved\\s+ones\\.\\s+Whether\\s+it's\\s+from\\s+bae,\\s+boo,\\s+family\\s+or\\s+a\\s+friend,\\s+a\\s+little\\s+MoMo\\s+goes\\s+a\\s+long\\s+way\\.\\s+Click\\s+here\\s+https://mtnmymomo\\.onelink\\.me/XJOt/Kashme\\s+to\\s+download\\s+MyMoMo\\s+App\\s+now\\s+and\\s+start\\s+sharing\\s+the\\s+love!\\s+#JustMoMoIt!$",
+    "fields": {
+      "name": {
+        "kind": "other",
+        "note": "Customer name or greeting placeholder"
+      }
+    },
+    "direction": "balance",
+    "version": 1
+  },
+  "4751e98cadd14830757c6ebe8505cd0e372eab2186b84913918d4e517b2d0498": {
+    "fingerprint": "4751e98cadd14830757c6ebe8505cd0e372eab2186b84913918d4e517b2d0498",
+    "sender": "MobileMoney",
+    "pattern": "^Payment for GHS\\s*(?P\u003camount\u003e[0-9.,]+) to (?P\u003ccounterparty\u003e.+?)\\.Current Balance: GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\. Transaction Id: (?P\u003creference\u003e\\d+)\\. Fee charged: GHS\\s*(?P\u003cfee\u003e[0-9.,]+),Tax Charged [0-9]+\\.Download the .+? for a Faster \u0026 .+?\\. Click here: https://bit\\.ly/downloadMyMoMo$",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference": {
+        "kind": "reference"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "4f456164b21638507dc1026751c5a475c0cd9e765c5830a875e0c113d0bfe177": {
+    "fingerprint": "4f456164b21638507dc1026751c5a475c0cd9e765c5830a875e0c113d0bfe177",
+    "sender": "MobileMoney",
+    "pattern": "^Y'ello\\s+(?P\u003ccounterparty\u003e.+?)!\\s+XtraBalance\\s+lets\\s+you\\s+complete\\s+your\\s+transactions\\s+when\\s+you\\s+have\\s+insufficient\\s+funds\\.\\s+Dial\\s+\\*170#,\\s+5,\\s+3\\s+then\\s+4\\s+to\\s+activate\\s+XtraBalance\\s+today\\.",
+    "fields": {
+      "counterparty": {
+        "kind": "counterparty"
+      }
+    },
+    "direction": "other",
+    "version": 1
+  },
+  "51ed80808bbe4acb85de618fd40294ed52d79ee8d9f1913a400639280b3130a9": {
+    "fingerprint": "51ed80808bbe4acb85de618fd40294ed52d79ee8d9f1913a400639280b3130a9",
+    "sender": "MobileMoney",
+    "pattern": "^Cash\\s+Out\\s+made\\s+for\\s+GHS\\s*(?P\u003camount\u003e[0-9.,]+)\\s+to\\s+(?P\u003ccounterparty\u003e.+?)\\.\\s+Current\\s+Balance:\\s+GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\s+Financial\\s+Transaction\\s+Id:\\s+(?P\u003creference\u003e\\d+)\\.\\s+Cash-out\\s+fee\\s+is\\s+charged\\s+automatically\\s+from\\s+your\\s+.+?\\s+wallet\\.\\s+Please\\s+do\\s+not\\s+pay\\s+any\\s+fees\\s+to\\s+the\\s+Agent\\.\\s+Thank\\s+you\\s+for\\s+using\\s+.+?\\.\\s+Fee\\s+charged:\\s+GHS\\s*(?P\u003cfee\u003e[0-9.,]+)\\.$",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference": {
+        "kind": "reference"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "54e40bb9e9d320ebe1b754ef9c949ff4754625f369342b71e7cb4e1c9ddb7846": {
+    "fingerprint": "54e40bb9e9d320ebe1b754ef9c949ff4754625f369342b71e7cb4e1c9ddb7846",
+    "sender": "MobileMoney",
+    "pattern": "Your payment of GHS\\s*(?P\u003camount\u003e[0-9.,]+) to (?P\u003ccounterparty\u003e.+?) has been completed at (?P\u003cdate\u003e\\d{4}-\\d{2}-\\d{2})\\s+(?P\u003ctime\u003e\\d{2}:\\d{2}:\\d{2})\\.\\s*Reference:\\s*(?P\u003creference\u003e\\d+)\\.\\s*Your new balance:\\s*GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\.\\s*Fee was\\s*GHS\\s*(?P\u003cfee\u003e[0-9.,]+)\\s*Tax charged:\\s*GHS\\s*[0-9.,]+\\.\\s*Financial Transaction Id:\\s*(?P\u003ctransaction_id\u003e\\d+)\\..*",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "date": {
+        "kind": "date"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "time": {
+        "kind": "time"
+      },
+      "transaction_id": {
+        "kind": "reference",
+        "optional": true,
+        "note": "Financial Transaction Id"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "60e9c67c17c58973d09adbcfb35eb9e54766792ed16bde1706c3e3dfcdd575cb": {
+    "fingerprint": "60e9c67c17c58973d09adbcfb35eb9e54766792ed16bde1706c3e3dfcdd575cb",
+    "sender": "MobileMoney",
+    "pattern": "^Y'ello\\s+(?P\u003ccounterparty\u003e.+?),\\s+Good\\s+news!\\s+Enjoy\\s+FREE\\s+transactions\\s+on\\s+MyMoMo!\\s+Send\\s+money\\s+to\\s+friends\\s+\u0026\\s+family\\s+or\\s+pay\\s+merchants\\s+via\\s+the\\s+MyMoMo\\s+app\\s+with\\s+zero\\s+charges\\s+every\\s+weekend\\.\\s+Just\\s+MoMo\\s+it!$",
+    "fields": {
+      "counterparty": {
+        "kind": "other",
+        "note": "greeting/addressee"
+      }
+    },
+    "direction": "balance",
+    "version": 1
+  },
+  "6f9ba57d747360799897b0d7aab525425eee76b857d6cb25d6a756ff1d8059e5": {
+    "fingerprint": "6f9ba57d747360799897b0d7aab525425eee76b857d6cb25d6a756ff1d8059e5",
+    "sender": "MobileMoney",
+    "pattern": "^Payment made for GHS\\s*(?P\u003camount\u003e[0-9.,]+) to (?P\u003ccounterparty\u003e.+?)\\s+Current Balance: GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\s+\\.\\s+Available Balance: GHS\\s*[0-9.,]+\\. Reference: W\\. Transaction ID: (?P\u003creference\u003e\\d+)\\. Fee charged: GHS\\s*(?P\u003cfee\u003e[0-9.,]+) Tax charged: (?P\u003ctax\u003e\\d+)\\. Download the .+? for a Faster \u0026 .+?\\. Click here: https://bit\\.ly/downloadMyMoMo",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "tax": {
+        "kind": "other",
+        "note": "tax amount"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "7fb83a44ea64c262a329da08219fd9fa54c988e836e50a8b7535287afee17a82": {
+    "fingerprint": "7fb83a44ea64c262a329da08219fd9fa54c988e836e50a8b7535287afee17a82",
+    "sender": "MobileMoney",
+    "pattern": "^Payment made for GHS\\s*(?P\u003camount\u003e[0-9.,]+) to (?P\u003ccounterparty\u003e.+?)\\s*Current Balance: GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\s*\\.\\s*Available Balance: GHS\\s*[0-9.,]+\\.\\s*Reference: Q\\.\\s*Transaction ID: (?P\u003creference\u003e\\d+)\\.\\s*Fee charged: GHS\\s*(?P\u003cfee\u003e[0-9.,]+)\\s*Tax charged: (?P\u003ctax\u003e[0-9.,]+)\\.\\s*Download the .+? for a Faster \u0026 .+?\\.\\s*Click here: https://bit\\.ly/downloadMyMoMo",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "tax": {
+        "kind": "other",
+        "note": "tax amount"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "87f6db1eae3e3e574466332756ac02f71c3772c4be5a41d1a54c71d8afd262b3": {
+    "fingerprint": "87f6db1eae3e3e574466332756ac02f71c3772c4be5a41d1a54c71d8afd262b3",
+    "sender": "MobileMoney",
+    "pattern": "^Y'ello\\.\\s+You have Paid\\s+GHS\\s+(?P\u003camount\u003e[0-9.,]+)\\s+to Merchant\\s+(?P\u003cmerchant_id\u003e\\d+)\\s+on your mobile money account at\\s+(?P\u003creference\u003e\\d+)\\.\\s+Message from sender:\\s+(?P\u003csender_id\u003e\\d+)\\.\\s+Your new balance:\\s+GHS\\s+(?P\u003cbalance\u003e[0-9.,]+)\\s+\\.\\s+Fee was\\s+GHS\\s+(?P\u003cfee\u003e[0-9.,]+)\\s+\\.\\s+(?P\u003ctransaction_label\u003e[^:]+):\\s+(?P\u003ctransaction_id\u003e\\d+)\\..*",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "merchant_id": {
+        "kind": "other",
+        "note": "Merchant identifier"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "sender_id": {
+        "kind": "other",
+        "note": "Sender identifier"
+      },
+      "transaction_id": {
+        "kind": "reference",
+        "note": "Transaction ID from label"
+      },
+      "transaction_label": {
+        "kind": "other",
+        "note": "Transaction label (e.g., Financial Transaction Id)"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "8c58c85b601b38f0b2ad25d4daa1a45fb8233c204e092aa956c06796cfe7416d": {
+    "fingerprint": "8c58c85b601b38f0b2ad25d4daa1a45fb8233c204e092aa956c06796cfe7416d",
+    "sender": "MobileMoney",
+    "pattern": "^Payment made for GHS\\s*(?P\u003camount\u003e[0-9.,]+) to (?P\u003ccounterparty\u003e.+?)\\s+Current Balance: GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\s+\\.\\s+Available Balance: GHS\\s*[0-9.,]+\\.\\s+Reference: Q\\.\\s+Transaction ID: (?P\u003creference\u003e\\d+)\\.\\s+Fee charged: GHS\\s*(?P\u003cfee\u003e[0-9.,]+)\\s+Tax charged: (?P\u003ctax\u003e\\d+)\\.\\s+Download the MoMo App for a Faster \u0026 Easier Experience\\.\\s+Click here: https://bit\\.ly/downloadMyMoMo$",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "tax": {
+        "kind": "other",
+        "note": "tax amount"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "8e3107fe22df1e320075122159e29314bba1e319003ade01118a4c71a5f04d8f": {
+    "fingerprint": "8e3107fe22df1e320075122159e29314bba1e319003ade01118a4c71a5f04d8f",
+    "sender": "MobileMoney",
+    "pattern": "^Payment received for GHS\\s*(?P\u003camount\u003e[0-9.,]+) from (?P\u003ccounterparty\u003e.+?)\\s*\\.\\s*Current Balance: GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\s*\\.\\s*Available Balance: GHS\\s*[0-9.,]+\\.\\s*Reference: (?P\u003creference\u003e.+?)\\.\\s*Transaction ID: (?P\u003ctransaction_id\u003e\\d+)\\.\\s*TRANSACTION FEE: (?P\u003cfee\u003e[0-9.,]+)",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "transaction_id": {
+        "kind": "other"
+      }
+    },
+    "direction": "credit",
+    "version": 1
+  },
+  "9219dde64d8e0d7e4387383a25cafdf1b54d585ac8544d9aebef961e4eee714f": {
+    "fingerprint": "9219dde64d8e0d7e4387383a25cafdf1b54d585ac8544d9aebef961e4eee714f",
+    "sender": "MobileMoney",
+    "pattern": "^Payment made for GHS\\s*(?P\u003camount\u003e[0-9.,]+) to (?P\u003ccounterparty\u003e.+?)\\s+Current Balance: GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\s*\\.\\s*Available Balance: GHS\\s*[0-9.,]+\\.\\s*Reference: (?P\u003creference\u003e\\d+)\\.\\s*Transaction ID: (?P\u003creference_alt\u003e\\d+)\\.\\s*Fee charged: GHS\\s*(?P\u003cfee\u003e[0-9.,]+)\\s+Tax charged: (?P\u003ctax\u003e\\d+)\\.\\s*Download the .+? for a Faster \u0026 .+?\\.\\s*Click here: https://bit\\.ly/downloadMyMoMo$",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "tax": {
+        "kind": "other",
+        "note": "tax amount"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "9ff67d7f9ab00251746ac0a037dc9d9ba03739d90cd0a33fbac6d0dafdeee406": {
+    "fingerprint": "9ff67d7f9ab00251746ac0a037dc9d9ba03739d90cd0a33fbac6d0dafdeee406",
+    "sender": "MobileMoney",
+    "pattern": "^Your payment of GHS\\s*(?P\u003camount\u003e[0-9.,]+) to (?P\u003ccounterparty\u003e.+?) has been completed at (?P\u003cdate\u003e\\d{4}-\\d{2}-\\d{2})\\s+(?P\u003ctime\u003e\\d{2}:\\d{2}:\\d{2})\\. Your new balance: GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\. Fee was GHS\\s*(?P\u003cfee\u003e[0-9.,]+) Tax was GHS\\s*(?P\u003ctax\u003e[0-9.,]+)\\. Reference: .+?,(?P\u003cmsisdn\u003e\\d+),Q\\. Financial Transaction Id: (?P\u003creference\u003e\\d+)\\. External Transaction Id: \\d+\\.Download the .+? for a Faster \u0026 .+? Click here: https://bit\\.ly/.+",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "date": {
+        "kind": "date"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "msisdn": {
+        "kind": "msisdn"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "tax": {
+        "kind": "other",
+        "note": "tax amount"
+      },
+      "time": {
+        "kind": "time"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "acdf1a0bd748b9abf8d3efecca1f181a706b6e99b7c1c19285c4319632e36e24": {
+    "fingerprint": "acdf1a0bd748b9abf8d3efecca1f181a706b6e99b7c1c19285c4319632e36e24",
+    "sender": "MobileMoney",
+    "pattern": "^Payment made for GHS\\s*(?P\u003camount\u003e[0-9.,]+) to (?P\u003ccounterparty\u003e.+?)\\s+Current Balance: GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\s*\\.\\s*Available Balance: GHS\\s*[0-9.,]+\\.\\s*Reference:\\s*(?P\u003creference\u003e\\d+)\\.\\s*Transaction ID:\\s*(?P\u003ctransaction_id\u003e\\d+)\\.\\s*Fee charged: GHS\\s*(?P\u003cfee\u003e[0-9.,]+)\\s+Tax charged:\\s*(?P\u003ctax\u003e[0-9.,]+)\\.\\s*Download the .+? for a Faster \u0026 .+?\\.\\s*Click here: https://bit\\.ly/\\w+",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "tax": {
+        "kind": "other",
+        "note": "Tax amount"
+      },
+      "transaction_id": {
+        "kind": "other",
+        "note": "Transaction ID"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "b8e25f056885e6d1c10f150b28bc8b362ac0197f6e48dc1556202bf8fa176c4b": {
+    "fingerprint": "b8e25f056885e6d1c10f150b28bc8b362ac0197f6e48dc1556202bf8fa176c4b",
+    "sender": "MobileMoney",
+    "pattern": "^You do not need to carry cash!\\s+Just MoMo it!\\s+Pay for your goods and services with ease\\.\\s+Simply dial \\*(?P\u003cussd\u003e[0-9]+)#\\s+and select option\\s+(?P\u003coption\u003e[0-9]+)\\s+to pay\\.",
+    "fields": {
+      "option": {
+        "kind": "other",
+        "note": "menu option number"
+      },
+      "ussd": {
+        "kind": "other",
+        "note": "USSD code"
+      }
+    },
+    "direction": "other",
+    "version": 1
+  },
+  "becb84f2fd88e4bb7771383827f03916f53b41eacbb2693af6f097639a4be038": {
+    "fingerprint": "becb84f2fd88e4bb7771383827f03916f53b41eacbb2693af6f097639a4be038",
+    "sender": "MobileMoney",
+    "pattern": "^Payment\\s+made\\s+for\\s+GHS\\s*(?P\u003camount\u003e[0-9.,]+)\\s+to\\s+(?P\u003ccounterparty\u003e.+?)\\s+Current\\s+Balance:\\s+GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\s+\\.\\s+Available\\s+Balance:\\s+GHS\\s*[0-9.,]+\\s*\\.\\s+Reference:\\s+W\\s*\\.\\s+Transaction\\s+ID:\\s+(?P\u003creference\u003e\\d+)\\s*\\.\\s+Fee\\s+charged:\\s+GHS\\s*(?P\u003cfee\u003e[0-9.,]+)\\s+Tax\\s+charged:\\s+(?P\u003ctax\u003e[0-9.,]+)\\s*\\.\\s+Download\\s+the\\s+MoMo\\s+App\\s+for\\s+a\\s+Faster\\s+\u0026\\s+Easier\\s+Experience\\s*\\.\\s+Click\\s+here:\\s+https://bit\\.ly/downloadMyMoMo",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "tax": {
+        "kind": "other",
+        "note": "tax amount"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "c7a6d957701db42a46ed243876378050422c4c86eecb5bb169742f42e804bdc8": {
+    "fingerprint": "c7a6d957701db42a46ed243876378050422c4c86eecb5bb169742f42e804bdc8",
+    "sender": "MobileMoney",
+    "pattern": "^Y'ello\\s+(.+?),\\s+exciting news on\\s+(.+?)\\.\\s+Transfer money to family and friends or pay Merchants at ZERO charges every weekend using\\s+(.+?)\\.\\s+Click the link\\s+https://mtnmymomo\\.onelink\\.me/[a-zA-Z0-9]+/[a-zA-Z0-9]+\\s+to download the app and enjoy free transactions\\.\\s+Terms and Conditions apply\\.",
+    "fields": {},
+    "direction": "balance",
+    "version": 1
+  },
+  "d8dc728f8096fa03c2539176d5d5fa3ea58cc358d35b02dcb955fafef0046c47": {
+    "fingerprint": "d8dc728f8096fa03c2539176d5d5fa3ea58cc358d35b02dcb955fafef0046c47",
+    "sender": "MobileMoney",
+    "pattern": "^\\s*\u003c#\u003e\\s*Please enter the following code:(?P\u003ccode\u003e\\d+)\\s*to complete your login\\.\\s*TRANSACTION FEE IS\\s*(?P\u003cfee\u003e[0-9.,]+)\\.\\s*N/RywfrtIZL\\s*(?P\u003creference1\u003e[A-Za-z0-9]+)\\s*(?P\u003creference2\u003e[A-Za-z0-9]+)\\s*(?P\u003creference3\u003e[A-Za-z0-9/+]+)\\s*l\\s*l\\+/DM\\+Y0kqw\\s*(?P\u003creference4\u003e[A-Za-z0-9]+)\\s*(?P\u003creference5\u003e[A-Za-z0-9]+)\\s*(?P\u003creference6\u003e[A-Za-z0-9+]+)$",
+    "fields": {
+      "code": {
+        "kind": "other",
+        "note": "login code"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference1": {
+        "kind": "reference"
+      },
+      "reference2": {
+        "kind": "reference"
+      },
+      "reference3": {
+        "kind": "reference"
+      },
+      "reference4": {
+        "kind": "reference"
+      },
+      "reference5": {
+        "kind": "reference"
+      },
+      "reference6": {
+        "kind": "reference"
+      }
+    },
+    "direction": "balance",
+    "version": 1
+  },
+  "e4afd3dcecdd03610db257fe6189761302040ad41165c95cec8750245a7e4f7b": {
+    "fingerprint": "e4afd3dcecdd03610db257fe6189761302040ad41165c95cec8750245a7e4f7b",
+    "sender": "MobileMoney",
+    "pattern": "^Payment for GHS\\s*(?P\u003camount\u003e[0-9.,]+) to MTN\\s*\\.\\..+?: GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\. Transaction Id: (?P\u003creference\u003e\\d+)\\. Fee charged: GHS\\s*(?P\u003cfee\u003e[0-9.,]+),.+Download the .+? for a Faster \u0026 .+?\\. Click here: https://bit\\.ly/downloadMyMoMo$",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "reference": {
+        "kind": "reference"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "e61427335f42d5c113a289b8ab9bb75ce3b00811f22294cc86a4815b7ab7e647": {
+    "fingerprint": "e61427335f42d5c113a289b8ab9bb75ce3b00811f22294cc86a4815b7ab7e647",
+    "sender": "MobileMoney",
+    "pattern": "^Y'ello\\s+(?P\u003cname\u003e.+?),\\s+we will be undertaking a planned systems upgrade to improve customer experience on our mobile money platform\\.\\s+As a result, mobile money services may not be accessible from\\s+(?P\u003ctime_start\u003e\\d{1,2}:\\d{2}[ap]m)\\s+to\\s+(?P\u003ctime_end\u003e\\d{1,2}:\\d{2}[ap]m)\\s+on\\s+(?P\u003cdate\u003e\\d{2}/\\d{2}/\\d{4})\\.\\s+We sincerely apologise for any inconvenience this may cause\\.\\s+Thank you\\.",
+    "fields": {
+      "date": {
+        "kind": "date"
+      },
+      "name": {
+        "kind": "other",
+        "note": "customer designation"
+      },
+      "time_end": {
+        "kind": "time",
+        "note": "maintenance window end"
+      },
+      "time_start": {
+        "kind": "time",
+        "note": "maintenance window start"
+      }
+    },
+    "direction": "balance",
+    "version": 1
+  },
+  "edc558e49b9632d53097c2aff7a989e112628e3d132050fc1dbeaf5714023c33": {
+    "fingerprint": "edc558e49b9632d53097c2aff7a989e112628e3d132050fc1dbeaf5714023c33",
+    "sender": "MobileMoney",
+    "pattern": "^Your payment of GHS\\s*(?P\u003camount\u003e[0-9.,]+) to (?P\u003ccounterparty\u003e.+?) has been completed at (?P\u003cdate\u003e\\d{4}-\\d{2}-\\d{2}) (?P\u003ctime\u003e\\d{2}:\\d{2}:\\d{2})\\. Your new balance: GHS\\s*(?P\u003cbalance\u003e[0-9.,]+)\\. Fee was GHS\\s*(?P\u003cfee\u003e[0-9.,]+) Tax was GHS\\s*-\\. Reference: .+?,(?P\u003cmsisdn\u003e\\d+),Q\\. Financial Transaction Id: (?P\u003creference\u003e\\d+)\\. External Transaction Id: \\d+\\.Download the .+? for a Faster \u0026 .+? Experience Click here: https://bit\\.ly/downloadMyMoMo",
+    "fields": {
+      "amount": {
+        "kind": "amount"
+      },
+      "balance": {
+        "kind": "balance"
+      },
+      "counterparty": {
+        "kind": "counterparty"
+      },
+      "date": {
+        "kind": "date"
+      },
+      "fee": {
+        "kind": "fee"
+      },
+      "msisdn": {
+        "kind": "msisdn"
+      },
+      "reference": {
+        "kind": "reference"
+      },
+      "time": {
+        "kind": "time"
+      }
+    },
+    "direction": "debit",
+    "version": 1
+  },
+  "ee0db68d3da8baa0c3aa82b3434004255f74296d41c8662ef2d68a30777d5546": {
+    "fingerprint": "ee0db68d3da8baa0c3aa82b3434004255f74296d41c8662ef2d68a30777d5546",
+    "sender": "MobileMoney",
+    "pattern": "Download the myMoMo App \u0026 get FREE 300MB plus an exclusive (?P\u003cbonus_percent\u003e[0-9]+)% bonus for recharges via the App\\. Click here https://mtnmymomo\\.onelink\\.me/[A-Za-z0-9/]+ to download\\.",
+    "fields": {
+      "bonus_percent": {
+        "kind": "other",
+        "note": "bonus percentage for recharges"
+      }
+    },
+    "direction": "other",
+    "version": 1
+  }
+}
