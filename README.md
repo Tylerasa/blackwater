@@ -20,12 +20,13 @@ skeletons (no PII) and only for fingerprints not yet in the cache.
 ## Packages
 
 ```
-cmd/ledger/            cobra CLI (analyse, parse)
+cmd/ledger/            cobra CLI (analyse, parse, generate, export, ingest, sum)
 internal/fingerprint/  masking + hashing (heart of the design)
 internal/corpus/       streaming XML + text dump readers
-internal/spec/         Spec type, Execute, Validate, JSON store
-internal/normalize/    stub, milestone 4
-internal/group/        stub, milestone 4
+internal/spec/         Spec type, Execute, Validate, JSON store, LLM Generate
+internal/normalize/    raw captures → canonical Transaction shape
+internal/store/        SQLite persistence with idempotent inserts
+internal/group/        stub, milestone 4 (dedupe across paired SMS)
 templates/             templates.json (community-contributed cache)
 testdata/              synthetic fixtures — never real SMS
 ```
@@ -41,6 +42,16 @@ ledger generate --input dump.xml
 
 # run cached specs, list matches + unmatched fingerprints
 ledger parse --input dump.xml
+
+# export the normalised ledger as CSV for a spreadsheet
+ledger export --input dump.xml --output ledger.csv
+
+# persist to a local SQLite ledger DB (idempotent — safe to re-run)
+ledger ingest --input dump.xml --db ledger.db
+
+# per-direction totals, optionally bounded by date
+ledger sum --db ledger.db
+ledger sum --db ledger.db --since 2025-02-01 --until 2025-02-28
 
 # override the sender allowlist
 ledger analyse --input dump.xml --allowlist MobileMoney,Ecobank
@@ -149,14 +160,31 @@ over/under-masking:
   pair masking, and disambiguating merchant vs. human names is out of
   scope for milestone 1.
 
+## Persistence
+
+`ledger ingest` writes normalised transactions into a local SQLite file
+(driver: `modernc.org/sqlite` — pure Go, no CGO). Idempotency is enforced
+by hashing `(sender, body)` into `message_hash`; re-ingesting the same
+dump is a no-op, not a source of duplicates.
+
+Schema: one `transactions` table with `message_hash` UNIQUE, indexes on
+`timestamp`, `direction`, `counterparty`, and `fingerprint`. Money is
+stored as INTEGER pesewas for exact aggregation; timestamps are ISO-8601
+UTC strings so ORDER BY works.
+
+No app-level encryption in this milestone — rely on OS-level full-disk
+encryption (Android, macOS FileVault, BitLocker) which is on by default
+on modern devices. If you need at-rest encryption above that, wrap the DB
+file with age or sops before syncing it anywhere.
+
 ## Roadmap
 
 - **Milestone 1 (done)** — fingerprinter, corpus reader, `analyse` + `parse` CLI.
 - **Milestone 2 (done)** — LLM spec generator (`spec.Generate`) with
-  validation loop, `ledger generate` CLI. Templates now growable from any
-  dump with one command.
-- **Milestone 3** — Postgres persistence, per-user encryption.
-- **Milestone 4** — normalisation + dedupe (`internal/normalize`, `internal/group`).
+  validation loop, `ledger generate` CLI.
+- **Milestone 3 (done)** — SQLite persistence, `ledger ingest`, `ledger sum`.
+- **Milestone 4 (partial done)** — `internal/normalize` + `ledger export`;
+  still pending: `internal/group` to dedupe paired debit/credit SMS.
 - **Milestone 5** — Android client.
 - **Ongoing** — community-contributed specs via PRs to
   `templates/templates.json` (diff-friendly, stable ordering, no PII).

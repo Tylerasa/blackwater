@@ -7,6 +7,12 @@
 /bin/
 cmd/ledger/ledger
 
+# local SQLite ledger DBs — per-user data, never committed
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
 # real SMS dumps must never be committed
 testdata/*.xml
 *.dump
