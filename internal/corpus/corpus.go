@@ -1,7 +1,9 @@
-// Package corpus streams SMS records from a dump file. Two input formats
-// are supported and auto-detected: the SMS Backup & Restore XML export
-// (Android community standard) and the plain-text 3-line-block export
-// produced by a couple of newer MoMo backup tools.
+// Package corpus streams SMS records from a dump. Three input shapes are
+// supported and auto-detected:
+//   - a single XML file (SMS Backup & Restore export, Android community standard)
+//   - a single plain-text file (3-line-block export produced by some MoMo tools)
+//   - a directory of JSON files, one message per file, as written by the
+//     iOS Share Extension into iCloud Drive
 //
 // Design notes:
 //   - Streaming, not slicing. Real dumps reach hundreds of MB; loading the
@@ -13,10 +15,13 @@ package corpus
 
 import (
 	"bufio"
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
+	"sort"
 	"strings"
 )
 
@@ -34,6 +39,7 @@ const (
 	FormatUnknown Format = iota
 	FormatXML
 	FormatText
+	FormatJSONDir
 )
 
 // DefaultAllowlist is a set of sender IDs known to carry MoMo / bank
@@ -72,15 +78,27 @@ func (it *Iterator) Next() (Record, bool) {
 // Err returns the terminal error if any.
 func (it *Iterator) Err() error { return it.err }
 
-// Open detects the format of the file and returns an iterator plus the
-// detected Format. Detection peeks the first non-blank line: if it starts
-// with '<', assume XML; else text.
+// Open detects the format of the input and returns an iterator plus the
+// detected Format.
+//
+// If path is a directory, we iterate over its *.json files (the iOS Share
+// Extension inbox format). If it's a file, we sniff the first ~4KB: leading
+// '<' means XML, otherwise the plain-text 3-line-block format.
 func Open(path string, allowlist []string) (*Iterator, Format, error) {
+	allow := buildAllowSet(allowlist)
+
+	info, err := os.Stat(path)
+	if err != nil {
+		return nil, FormatUnknown, fmt.Errorf("corpus: stat %s: %w", path, err)
+	}
+	if info.IsDir() {
+		return newJSONDirIterator(path, allow)
+	}
+
 	f, err := os.Open(path)
 	if err != nil {
 		return nil, FormatUnknown, fmt.Errorf("corpus: open %s: %w", path, err)
 	}
-	// Sniff the first ~4KB to decide format.
 	head := make([]byte, 4096)
 	n, _ := io.ReadFull(f, head)
 	head = head[:n]
@@ -89,8 +107,6 @@ func Open(path string, allowlist []string) (*Iterator, Format, error) {
 		return nil, FormatUnknown, fmt.Errorf("corpus: seek: %w", err)
 	}
 	format := sniff(head)
-
-	allow := buildAllowSet(allowlist)
 
 	switch format {
 	case FormatXML:
@@ -233,4 +249,64 @@ func newTextIterator(f *os.File, allow map[string]bool) *Iterator {
 		return Record{}, false, nil
 	}
 	return it
+}
+
+// ---- JSON directory (iOS Share Extension inbox) ----
+//
+// Each file is one message written by the Share Extension into iCloud Drive:
+//
+//   {"sender":"MobileMoney","body":"Payment for GHS3.00 ...","capturedAt":"2026-08-03T14:30:00Z"}
+//
+// Files are consumed in filename order so timestamped filenames give a
+// deterministic ingest sequence. Non-JSON files are skipped silently
+// (macOS drops .DS_Store, iCloud drops .icloud placeholders during sync).
+
+type jsonMessage struct {
+	Sender     string `json:"sender"`
+	Body       string `json:"body"`
+	CapturedAt string `json:"capturedAt,omitempty"`
+}
+
+func newJSONDirIterator(dir string, allow map[string]bool) (*Iterator, Format, error) {
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return nil, FormatUnknown, fmt.Errorf("corpus: read dir %s: %w", dir, err)
+	}
+	var files []string
+	for _, e := range entries {
+		if e.IsDir() {
+			continue
+		}
+		if strings.ToLower(filepath.Ext(e.Name())) != ".json" {
+			continue
+		}
+		files = append(files, filepath.Join(dir, e.Name()))
+	}
+	sort.Strings(files) // filename order = deterministic ingest
+
+	it := &Iterator{}
+	i := 0
+	it.next = func() (Record, bool, error) {
+		for i < len(files) {
+			path := files[i]
+			i++
+			b, err := os.ReadFile(path)
+			if err != nil {
+				return Record{}, false, fmt.Errorf("corpus: read %s: %w", filepath.Base(path), err)
+			}
+			var m jsonMessage
+			if err := json.Unmarshal(b, &m); err != nil {
+				return Record{}, false, fmt.Errorf("corpus: decode %s: %w", filepath.Base(path), err)
+			}
+			if m.Body == "" {
+				continue // malformed / empty inbox entry
+			}
+			if !senderAllowed(allow, m.Sender) {
+				continue
+			}
+			return Record{Sender: m.Sender, Body: m.Body, Date: m.CapturedAt}, true, nil
+		}
+		return Record{}, false, nil
+	}
+	return it, FormatJSONDir, nil
 }

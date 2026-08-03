@@ -22,11 +22,12 @@ skeletons (no PII) and only for fingerprints not yet in the cache.
 ```
 cmd/ledger/            cobra CLI (analyse, parse, generate, export, ingest, sum)
 internal/fingerprint/  masking + hashing (heart of the design)
-internal/corpus/       streaming XML + text dump readers
+internal/corpus/       streaming XML + text + JSON-dir dump readers
 internal/spec/         Spec type, Execute, Validate, JSON store, LLM Generate
 internal/normalize/    raw captures → canonical Transaction shape
 internal/store/        SQLite persistence with idempotent inserts
 internal/group/        stub, milestone 4 (dedupe across paired SMS)
+ios/                   iOS Share Extension + container app (see ios/README.md)
 templates/             templates.json (community-contributed cache)
 testdata/              synthetic fixtures — never real SMS
 ```
@@ -177,6 +178,20 @@ encryption (Android, macOS FileVault, BitLocker) which is on by default
 on modern devices. If you need at-rest encryption above that, wrap the DB
 file with age or sops before syncing it anywhere.
 
+## iOS client (POC)
+
+The iOS side is a manual-share client: long-press an SMS in Messages →
+Share → BlackWater → confirm sender → Save. The message becomes a JSON
+file in an iCloud Drive folder that syncs to the Mac. `ledger ingest`
+then treats the folder as its input.
+
+Apple does not allow third-party apps to read SMS in the background at
+all, on any framework. Share extensions are the ceiling on iOS. For a
+personal-use POC this is fine — for a general-audience product, ship
+Android instead.
+
+See `ios/README.md` for the Xcode setup, sideload flow, and troubleshooting.
+
 ## Roadmap
 
 - **Milestone 1 (done)** — fingerprinter, corpus reader, `analyse` + `parse` CLI.
@@ -185,6 +200,8 @@ file with age or sops before syncing it anywhere.
 - **Milestone 3 (done)** — SQLite persistence, `ledger ingest`, `ledger sum`.
 - **Milestone 4 (partial done)** — `internal/normalize` + `ledger export`;
   still pending: `internal/group` to dedupe paired debit/credit SMS.
-- **Milestone 5** — Android client.
+- **iOS POC (done)** — Share Extension + iCloud Drive inbox; corpus
+  reader accepts a directory of JSON files.
+- **Milestone 5** — Android client (native Kotlin + gomobile bind).
 - **Ongoing** — community-contributed specs via PRs to
   `templates/templates.json` (diff-friendly, stable ordering, no PII).

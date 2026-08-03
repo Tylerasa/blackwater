@@ -13,6 +13,14 @@ cmd/ledger/ledger
 *.db-wal
 *.db-shm
 
+# Xcode noise — the project file itself is generated locally per Xcode setup
+ios/**/*.xcodeproj
+ios/**/*.xcworkspace
+ios/**/xcuserdata/
+ios/**/DerivedData/
+ios/**/build/
+ios/**/*.xcuserstate
+
 # real SMS dumps must never be committed
 testdata/*.xml
 *.dump

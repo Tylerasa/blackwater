@@ -109,6 +109,97 @@ of GHS 50.00`
 	}
 }
 
+func TestOpenJSONDir(t *testing.T) {
+	dir := t.TempDir()
+	// three inbox files + one non-json distractor + one non-allowlisted sender
+	files := map[string]string{
+		"20260101T000000Z-a.json": `{"sender":"MobileMoney","body":"Payment for GHS3.00","capturedAt":"2026-01-01T00:00:00Z"}`,
+		"20260102T000000Z-b.json": `{"sender":"MobileMoney","body":"Payment for GHS5.00","capturedAt":"2026-01-02T00:00:00Z"}`,
+		"20260103T000000Z-c.json": `{"sender":"RandomSpam","body":"noise","capturedAt":"2026-01-03T00:00:00Z"}`,
+		".DS_Store":               "junk", // should be skipped silently
+	}
+	for name, contents := range files {
+		if err := os.WriteFile(filepath.Join(dir, name), []byte(contents), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	it, format, err := Open(dir, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if format != FormatJSONDir {
+		t.Fatalf("expected FormatJSONDir, got %v", format)
+	}
+	var got []Record
+	for {
+		r, ok := it.Next()
+		if !ok {
+			break
+		}
+		got = append(got, r)
+	}
+	if err := it.Err(); err != nil {
+		t.Fatal(err)
+	}
+	if len(got) != 2 {
+		t.Fatalf("expected 2 allowlisted records, got %d: %+v", len(got), got)
+	}
+	// Filename-sorted, so a.json before b.json
+	if got[0].Date != "2026-01-01T00:00:00Z" || got[1].Date != "2026-01-02T00:00:00Z" {
+		t.Errorf("expected filename-sorted ingest order, got: %+v", got)
+	}
+}
+
+func TestJSONDirSkipsMalformed(t *testing.T) {
+	dir := t.TempDir()
+	// missing body → skipped silently, not an error
+	if err := os.WriteFile(filepath.Join(dir, "empty.json"), []byte(`{"sender":"MobileMoney"}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	// well-formed
+	if err := os.WriteFile(filepath.Join(dir, "good.json"), []byte(`{"sender":"MobileMoney","body":"hi"}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	it, _, err := Open(dir, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var n int
+	for {
+		_, ok := it.Next()
+		if !ok {
+			break
+		}
+		n++
+	}
+	if err := it.Err(); err != nil {
+		t.Fatal(err)
+	}
+	if n != 1 {
+		t.Errorf("expected 1 record (empty body skipped), got %d", n)
+	}
+}
+
+func TestJSONDirBadJSONIsError(t *testing.T) {
+	dir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(dir, "broken.json"), []byte(`{not json`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	it, _, err := Open(dir, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, ok := it.Next()
+	if ok {
+		t.Fatal("expected iterator to bail on malformed JSON")
+	}
+	if it.Err() == nil {
+		t.Error("expected Err() to surface JSON decode failure")
+	}
+}
+
 func TestAllowlistOverride(t *testing.T) {
 	textDump := `Jan 1, 2025 12:00 AM
 CustomBank

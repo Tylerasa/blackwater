@@ -150,6 +150,8 @@ func formatName(f corpus.Format) string {
 		return "xml"
 	case corpus.FormatText:
 		return "text"
+	case corpus.FormatJSONDir:
+		return "json-dir"
 	default:
 		return "unknown"
 	}
