@@ -33,7 +33,7 @@ func main() {
 		SilenceUsage:  true,
 		SilenceErrors: true,
 	}
-	root.AddCommand(newAnalyseCmd(), newParseCmd(), newGenerateCmd())
+	root.AddCommand(newAnalyseCmd(), newParseCmd(), newGenerateCmd(), newExportCmd())
 	if err := root.Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, "error:", err)
 		os.Exit(1)
